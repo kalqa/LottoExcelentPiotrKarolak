@@ -4,6 +4,8 @@ public class NumberReceiverConfiguration {
 
     public NumberReceiverFacade numberReceiverFacadeForTest() {
         NumberReceiverValidator numberReceiverValidator = new NumberReceiverValidator();
-        return new NumberReceiverFacade(numberReceiverValidator);
+        LotteryDateGenerator lotteryDateGenerator = new LotteryDateGenerator();
+        UserLotteryIdGenerator userLotteryIdGenerator = new UserLotteryIdGenerator();
+        return new NumberReceiverFacade(numberReceiverValidator,userLotteryIdGenerator,lotteryDateGenerator);
     }
 }

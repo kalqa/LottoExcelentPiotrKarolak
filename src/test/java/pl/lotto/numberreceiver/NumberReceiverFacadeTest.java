@@ -36,7 +36,7 @@ public class NumberReceiverFacadeTest {
         // when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
         // then
-        assertThat(result.message()).isEqualTo("failure");
+        assertThat(result.message()).isEqualTo("not six numbers,user gave duplicate");
     }
 
     @Test
@@ -47,7 +47,7 @@ public class NumberReceiverFacadeTest {
         // when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
         //then
-        assertThat(result.message()).isEqualTo("not six numbers,hasUserGaveDuplicate");
+        assertThat(result.message()).isEqualTo("not six numbers,user gave duplicate");
     }
 
     @Test
@@ -58,7 +58,7 @@ public class NumberReceiverFacadeTest {
         //when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
         //then
-        assertThat(result.message()).isEqualTo("failure");
+        assertThat(result.message()).isEqualTo("user gave duplicate");
 
     }
 
@@ -70,7 +70,10 @@ public class NumberReceiverFacadeTest {
         //when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
         //then
-        assertThat(result.message()).isEqualTo("failure");
+        assertThat(result.message()).isEqualTo("number gave number out of range");
     }
+
+
+
 
 }
