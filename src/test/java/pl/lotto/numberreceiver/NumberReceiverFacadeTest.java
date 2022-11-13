@@ -1,5 +1,6 @@
 package pl.lotto.numberreceiver;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
@@ -72,6 +73,19 @@ public class NumberReceiverFacadeTest {
         //then
         assertThat(result.message()).isEqualTo("number gave number out of range");
     }
+
+
+    @Test
+    public void should_return_wrong_date_when_user_gave_atleast_one_out_of_range(){
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6, 100000);
+        LocalDateTime dateTime = LocalDateTime.of(1980,01,1,0,0);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryIdGeneratedTime().isEqual(dateTime));
+    }
+
 
 
 

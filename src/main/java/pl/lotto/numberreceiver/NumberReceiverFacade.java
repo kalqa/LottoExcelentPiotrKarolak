@@ -27,7 +27,7 @@ public class NumberReceiverFacade {
             LocalDateTime lotteryIdGenarated = lotteryDateGenerator.GenerateLotteryDate(message);
             long lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
 
-        return new NumberReceiverResultDto(message);
+        return new NumberReceiverResultDto(message,lotteryIdGenarated,lotteryId);
     }
 
 //    NumbersFromUsersDto fetchAllTicketsForDate(LocalDateTime date) {

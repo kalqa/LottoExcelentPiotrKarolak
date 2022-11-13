@@ -11,7 +11,7 @@ class UserLotteryIdGenerator {
             userLotteryId.incrementAndGet();
             return userLotteryId.get();
         }
-       return null;
+        return Long.valueOf(0);
     }
 
 
