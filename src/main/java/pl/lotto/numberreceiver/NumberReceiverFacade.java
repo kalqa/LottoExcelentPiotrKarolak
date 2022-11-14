@@ -24,8 +24,15 @@ public class NumberReceiverFacade {
         NumberValidationResult validate = validator.validate(numbersFromUser);
         String message = validate.validationMessage();
 
-            LocalDateTime lotteryIdGenarated = lotteryDateGenerator.GenerateLotteryDate(message);
-            long lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
+            LocalDateTime lotteryIdGenarated = null;
+            Long lotteryId = null;
+
+        try {
+            lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
+            lotteryIdGenarated = lotteryDateGenerator.GenerateLotteryDate(message);
+        } catch (ValidationExeption e) {
+            new NumberReceiverResultDto(message);
+        }
 
         return new NumberReceiverResultDto(message,lotteryIdGenarated,lotteryId);
     }

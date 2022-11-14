@@ -11,6 +11,8 @@ class LotteryDateGenerator {
          if (message.length() == 0)
             return LocalDateTime.now();
 
-         return LocalDateTime.of(1980,01,1,0,0);
+
+
+         return null;
     }
 }

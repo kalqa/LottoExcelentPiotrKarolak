@@ -6,12 +6,12 @@ class UserLotteryIdGenerator {
 
     private static AtomicLong userLotteryId = new AtomicLong(0);
 
-    public Long generateUserLotteryId(String message) {
+    public Long generateUserLotteryId(String message) throws ValidationExeption {
         if (message.length() == 0) {
             userLotteryId.incrementAndGet();
-            return userLotteryId.get();
+            return Long.valueOf(userLotteryId.get());
         }
-        return Long.valueOf(0);
+        throw new ValidationExeption();
     }
 
 
