@@ -2,8 +2,10 @@ package pl.lotto.numberreceiver;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatException;
 
@@ -22,12 +24,25 @@ public class NumberReceiverFacadeTest {
 
     @Test
     public void should_return_unique_id_when_user_gave_correct_input() {
+        // given
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6, 7);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryId()).isEqualTo(Long.valueOf(1));
 
     }
 
     @Test
     public void should_return_correct_draw_date_when_user_gave_correct_input() {
-
+        // given
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6, 7);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryIdGeneratedTime()).isEqualTo(result.lotteryIdGeneratedTime());
     }
 
     @Test
@@ -75,6 +90,43 @@ public class NumberReceiverFacadeTest {
         assertThat(result.message()).isEqualTo("number gave number out of range");
     }
 
+
+
+    @Test
+    public void should_return_null_when_user_gave_out_of_range_number() {
+        // given
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6, 1000);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryId()).isEqualTo(null);
+
+    }
+
+    @Test
+    public void should_return_null_when_user_gave_less_numbers() {
+        // given
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryId()).isEqualTo(null);
+
+    }
+
+    @Test
+    public void should_return_null_when_user_gave_more_then_six_numbers() {
+        // given
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest();
+        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 5, 6, 7);
+        //when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
+        //then
+        assertThat(result.lotteryId()).isEqualTo(null);
+
+    }
 
 
 
