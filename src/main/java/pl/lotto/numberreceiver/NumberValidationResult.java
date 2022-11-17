@@ -12,4 +12,8 @@ record NumberValidationResult(String validationMessage) {
         return new NumberValidationResult(message);
     }
 
+    public boolean isFailure(){
+        return !validationMessage.equals(SUCCESS_MESSAGE);
+    }
+
 }
