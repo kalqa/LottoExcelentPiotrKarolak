@@ -1,19 +1,26 @@
-//package pl.lotto.resultchecker;
-//
-//import java.time.LocalDateTime;
-//import pl.lotto.numberreceiver.NumberReceiverFacade;
-//
-//public class ResultCheckerFacade {
-//
-//    NumberReceiverFacade numberReceiverFacade;
+package pl.lotto.resultchecker;
+
+import java.time.LocalDateTime;
+import pl.lotto.numberreceiver.NumberReceiverFacade;
+import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+
+public class ResultCheckerFacade {
+
+    NumberReceiverFacade numberReceiverFacade;
 //    DrawDateGeneratorFacade drawDateGeneratorFacade;
 //    NumbersGeneratorFacade numbersGeneratorFacade;
-//
-//    public void f(){
+
+
+    ResultCheckerFacade(NumberReceiverFacade numberReceiverFacade) {
+        this.numberReceiverFacade = numberReceiverFacade;
+    }
+
+    public void f() {
 //        drawDateGeneratorFacade.nextDrawDate();
-//        numberReceiverFacade.usersNumbers(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        AllNumbersFromUsersDto allNumbersFromUsersDto = numberReceiverFacade.usersNumbers(now);
 //        numbersGeneratorFacade.winningNumbers(LocalDateTime.now());
-//
-//
-//    }
-//}
+
+
+    }
+}

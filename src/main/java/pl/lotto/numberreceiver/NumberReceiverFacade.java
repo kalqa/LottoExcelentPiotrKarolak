@@ -15,15 +15,11 @@ public class NumberReceiverFacade {
 //    DrawDateGeneratorFacade drawDateGeneratorFacade;
 
 
-    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, LotteryDateGenerator lotteryDateGenerator, NumberReceiverRepository repository) {
+    public NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, LotteryDateGenerator lotteryDateGenerator, NumberReceiverRepository repository) {
         this.validator = validator;
         this.userLotteryIdGenerator = userLotteryIdGenerator;
         this.lotteryDateGenerator = lotteryDateGenerator;
         this.repository = repository;
-    }
-
-    public NumberReceiverFacade(NumberReceiverValidator validator) {
-        this.validator = validator;
     }
 
     public NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {
@@ -45,22 +41,11 @@ public class NumberReceiverFacade {
     }
 
     public AllNumbersFromUsersDto usersNumbers(LocalDateTime nextDrawDate) {
-//        drawDateGeneratorFacade.previousDrawDate();
         List<LotteryTicket> all = repository.findAll();
         return new AllNumbersFromUsersDto(
                 List.of(
                         new LotteryTicketDto(all.get(0).getNumbersFromUser(), all.get(0).getLotteryId())
                 )
         );
-//        return new AllNumbersFromUsersDto(
-//                List.of(
-//                        new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), UUID.randomUUID().toString())
-//                )
-//        );
     }
-
-
-//    NumbersFromUsersDto fetchAllTicketsForDate(LocalDateTime date) {
-//
-//    }
 }
