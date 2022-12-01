@@ -29,11 +29,12 @@ class DateGenerator {
                         userTicketCreatedTime.getDayOfMonth(),
                         LOTTERY_HOUR,LOTTERY_MINUTES);
         }else{
-            drawDate = userTicketCreatedTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+            drawDate = userTicketCreatedTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).withHour(LOTTERY_HOUR).withMinute(LOTTERY_MINUTES);
+
         }
 
 
-        return null;
+        return drawDate;
     }
 
 
