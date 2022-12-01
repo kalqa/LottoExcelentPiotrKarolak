@@ -2,17 +2,26 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 
-import pl.lotto.NumbersGenerator.NumbersGeneratorFacade;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
+import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 
 public class ResultCheckerFacade {
     NumberReceiverFacade numberReceiverFacade;
     NumbersGeneratorFacade numbersGeneratorFacade;
 
-   public void f(){
+    ResultCheckerFacade(NumberReceiverFacade numberReceiverFacade, NumbersGeneratorFacade numbersGeneratorFacade) {
+        this.numberReceiverFacade = numberReceiverFacade;
+        this.numbersGeneratorFacade = numbersGeneratorFacade;
+    }
+
+    public void checkWinners(){
+        AllNumbersFromUsersDto allNumbersFromUsersDto = numberReceiverFacade.usersNumbers(LocalDateTime.now());
+        System.out.println(allNumbersFromUsersDto);
       /*drawDateGeneratorFacade.nextDrawDate();
         numberReceiverFacade.usersNumbers(LocalDateTime.now());
-
 */
+
+
     }
 }

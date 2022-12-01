@@ -1,4 +1,4 @@
-package pl.lotto.DrawDateGenerator;
+package pl.lotto.drawdategenerator;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,6 @@ public class DrawDateGeneratorFacade {
     }
 
     public LocalDateTime previousDrawDate(LocalDateTime date) {
-
         return dateGenerator.previousDrawDate(date);
     }
 

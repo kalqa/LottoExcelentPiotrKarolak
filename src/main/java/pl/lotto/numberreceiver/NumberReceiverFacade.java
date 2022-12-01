@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import pl.lotto.DrawDateGenerator.DrawDateGeneratorFacade;
+import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
@@ -48,8 +48,8 @@ public class NumberReceiverFacade {
     }
 
     public AllNumbersFromUsersDto usersNumbers(LocalDateTime nextDrawDate) {
-        drawDateGeneratorFacade.previousDrawDate(nextDrawDate);
-        List<LotteryTicket> all = repository.findAll();
+//        drawDateGeneratorFacade.previousDrawDate(nextDrawDate);
+        List<LotteryTicket> all = repository.findAllByTicketSentDate(nextDrawDate);
         return new AllNumbersFromUsersDto(
                 List.of(
                         new LotteryTicketDto(all.get(0).getNumbersFromUser(), all.get(0).getLotteryId())

@@ -1,7 +1,6 @@
-package pl.lotto.numberreceiver;
+package pl.lotto.numbersgenerator;
 
 import org.junit.jupiter.api.Test;
-import pl.lotto.NumbersGenerator.NumbersGeneratorFacade;
 
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;

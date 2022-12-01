@@ -1,4 +1,4 @@
-package pl.lotto.DrawDateGenerator;
+package pl.lotto.drawdategenerator;
 
 import java.time.Clock;
 
