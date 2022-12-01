@@ -1,14 +1,18 @@
 package pl.lotto.DrawDateGenerator;
 
+import java.sql.Date;
 import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 
 class DateGenerator {
 
     private final Clock clock;
     private final int LOTTERY_HOUR = 20;
+    private final int LOTTERY_MINUTES = 0;
 
 
     public DateGenerator(Clock clock) {
@@ -16,15 +20,21 @@ class DateGenerator {
     }
 
 
-/*    public LocalDateTime generateDrawDate(LocalDateTime userTicketCreatedTime) {
+    public LocalDateTime generateDrawDate(LocalDateTime userTicketCreatedTime) {
+        LocalDateTime drawDate;
         if (isSaturday(userTicketCreatedTime)
                 && isBeforeLotteryHour(userTicketCreatedTime)) {
+                drawDate = LocalDateTime.of(userTicketCreatedTime.getYear(),
+                        userTicketCreatedTime.getMonth(),
+                        userTicketCreatedTime.getDayOfMonth(),
+                        LOTTERY_HOUR,LOTTERY_MINUTES);
+        }else{
+            drawDate = userTicketCreatedTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
         }
 
-    }*/
 
-
-
+        return null;
+    }
 
 
     private boolean isSaturday(LocalDateTime userTicketCreatedTime) {
@@ -41,4 +51,10 @@ class DateGenerator {
         return false;
     }
 
+    public LocalDateTime previousDrawDate(LocalDateTime date) {
+        LocalDateTime nextDrawDate = generateDrawDate(date);
+        LocalDateTime previousDrawDate = nextDrawDate.minusDays(7);
+
+        return previousDrawDate;
+    }
 }

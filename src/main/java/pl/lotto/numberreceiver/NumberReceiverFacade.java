@@ -3,6 +3,8 @@ package pl.lotto.numberreceiver;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import pl.lotto.DrawDateGenerator.DrawDateGeneratorFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
@@ -12,7 +14,8 @@ public class NumberReceiverFacade {
     UserLotteryIdGenerator userLotteryIdGenerator;
     LotteryDateGenerator lotteryDateGenerator;
     NumberReceiverRepository repository;
-//    DrawDateGeneratorFacade drawDateGeneratorFacade;
+
+    DrawDateGeneratorFacade drawDateGeneratorFacade;
 
 
     NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, LotteryDateGenerator lotteryDateGenerator, NumberReceiverRepository repository) {
@@ -45,7 +48,7 @@ public class NumberReceiverFacade {
     }
 
     public AllNumbersFromUsersDto usersNumbers(LocalDateTime nextDrawDate) {
-//        drawDateGeneratorFacade.previousDrawDate();
+        drawDateGeneratorFacade.previousDrawDate(nextDrawDate);
         List<LotteryTicket> all = repository.findAll();
         return new AllNumbersFromUsersDto(
                 List.of(

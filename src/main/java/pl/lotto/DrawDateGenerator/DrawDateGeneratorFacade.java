@@ -1,8 +1,6 @@
 package pl.lotto.DrawDateGenerator;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
 
 public class DrawDateGeneratorFacade {
 
@@ -10,6 +8,11 @@ public class DrawDateGeneratorFacade {
 
     public DrawDateGeneratorFacade(DateGenerator dateGenerator) {
         this.dateGenerator = dateGenerator;
+    }
+
+    public LocalDateTime previousDrawDate(LocalDateTime date) {
+
+        return dateGenerator.previousDrawDate(date);
     }
 
 /*    public LocalDateTime nextDrawDate(LocalDateTime userTicketCreatedTime) {
