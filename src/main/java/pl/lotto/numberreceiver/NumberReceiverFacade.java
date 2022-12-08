@@ -1,5 +1,6 @@
 package pl.lotto.numberreceiver;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -14,18 +15,18 @@ import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 public class NumberReceiverFacade {
     NumberReceiverValidator validator;
     UserLotteryIdGenerator userLotteryIdGenerator;
-    LotteryDateGenerator lotteryDateGenerator;
     NumberReceiverRepository repository;
 
+    Clock clock;
     DrawDateGeneratorFacade drawDateGeneratorFacade;
 
 
-    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, LotteryDateGenerator lotteryDateGenerator, NumberReceiverRepository repository,DrawDateGeneratorFacade drawDateGeneratorFacade) {
+    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, NumberReceiverRepository repository,DrawDateGeneratorFacade drawDateGeneratorFacade, Clock clock) {
         this.validator = validator;
         this.userLotteryIdGenerator = userLotteryIdGenerator;
-        this.lotteryDateGenerator = lotteryDateGenerator;
         this.repository = repository;
         this.drawDateGeneratorFacade = drawDateGeneratorFacade;
+        this.clock = clock;
     }
 
     public NumberReceiverFacade(NumberReceiverValidator validator) {
@@ -38,13 +39,8 @@ public class NumberReceiverFacade {
         if (validate.isFailure()) {
             return new NumberReceiverResultDto(message);
         }
-        LocalDateTime lotteryTicketDrawDate = null;
+        LocalDateTime lotteryTicketDrawDate = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now(clock));
         UUID lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
-        try {
-            lotteryTicketDrawDate = lotteryDateGenerator.generateLotteryDate(message);
-        } catch (ValidationExeption e) {
-            new NumberReceiverResultDto(message);
-        }
         LotteryTicket lotteryTicket = new LotteryTicket(lotteryTicketDrawDate, lotteryId.toString(), numbersFromUser);
         repository.save(lotteryTicket);
         return new NumberReceiverResultDto(message, lotteryTicketDrawDate, lotteryId.toString());

@@ -14,7 +14,10 @@ public class DrawDateGeneratorFacade {
         return dateGenerator.previousDrawDate(date);
     }
 
-/*    public LocalDateTime nextDrawDate(LocalDateTime userTicketCreatedTime) {
+    public LocalDateTime generateNextDrawDate(LocalDateTime ticketCreatedAt){
+       return dateGenerator.generateDrawDate(ticketCreatedAt);
+    }
+        /*    public LocalDateTime nextDrawDate(LocalDateTime userTicketCreatedTime) {
         dateGenerator.generateDrawDate(userTicketCreatedTime);
 
     }*/

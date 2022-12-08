@@ -24,12 +24,14 @@ public class DateGenerator {
             return of(userTicketCreatedTime.getYear(),
                     userTicketCreatedTime.getMonth(),
                     userTicketCreatedTime.getDayOfMonth(),
-                    LOTTERY_HOUR, LOTTERY_MINUTES);
+                    LOTTERY_HOUR, LOTTERY_MINUTES,0,0);
         }
         TemporalAdjuster nextSaturday = TemporalAdjusters.next(DayOfWeek.SATURDAY);
         return userTicketCreatedTime.with(nextSaturday)
                 .withHour(LOTTERY_HOUR)
-                .withMinute(LOTTERY_MINUTES);
+                .withMinute(LOTTERY_MINUTES)
+                .withSecond(0)
+                .withNano(0);
     }
 
 

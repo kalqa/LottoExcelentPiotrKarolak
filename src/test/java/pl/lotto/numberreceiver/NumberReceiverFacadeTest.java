@@ -57,7 +57,7 @@ public class NumberReceiverFacadeTest {
         //when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
         //then
-        LocalDateTime ticketDate = LocalDateTime.of(2022, Month.NOVEMBER, 17, 11, 0, 0);
+        LocalDateTime ticketDate = LocalDateTime.of(2022, Month.NOVEMBER, 19, 20, 0, 0);
         assertThat(result.lotteryIdGeneratedTime()).isEqualTo(ticketDate);
     }
 
