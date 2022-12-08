@@ -2,9 +2,9 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 
+import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
-import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 
 public class ResultCheckerFacade {
     NumberReceiverFacade numberReceiverFacade;

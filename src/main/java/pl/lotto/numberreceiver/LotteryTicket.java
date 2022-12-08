@@ -4,18 +4,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 class LotteryTicket {
-    private final LocalDateTime ticketSentDate;
+    private final LocalDateTime drawDate;
     private final String lotteryId;
     private final List<Integer> numbersFromUser;
 
-    public LotteryTicket(LocalDateTime ticketSentDate, String lotteryId, List<Integer> numbersFromUser) {
-        this.ticketSentDate = ticketSentDate;
+    public LotteryTicket(LocalDateTime drawDate, String lotteryId, List<Integer> numbersFromUser) {
+        this.drawDate = drawDate;
         this.lotteryId = lotteryId;
         this.numbersFromUser = numbersFromUser;
     }
 
-    LocalDateTime getTicketSentDate() {
-        return ticketSentDate;
+    LocalDateTime getDrawDate() {
+        return drawDate;
     }
 
     String getLotteryId() {

@@ -1,5 +1,8 @@
 package pl.lotto.drawdategenerator;
 
+import pl.lotto.drawdategenerator.DateGenerator;
+import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
+
 import java.time.Clock;
 
 public class DrawDateGeneratorConfiguration {

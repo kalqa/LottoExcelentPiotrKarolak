@@ -6,13 +6,16 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NumberReceiverFacadeTest {
 
@@ -34,11 +37,13 @@ public class NumberReceiverFacadeTest {
     public void should_return_unique_id_when_user_gave_correct_input() {
         // given
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest(clock, repository);
+        Pattern UUID_REGEX =
+                Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
         List<Integer> numberFromUser = List.of(1, 2, 3, 4, 6, 7);
         //when
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numberFromUser);
         //then
-        assertThat(result.lotteryId()).isEqualTo(Long.valueOf(1));
+        assertTrue(UUID_REGEX.matcher(result.lotteryId()).matches());
 
     }
 

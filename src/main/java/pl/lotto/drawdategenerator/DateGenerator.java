@@ -7,7 +7,7 @@ import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import static java.time.LocalDateTime.of;
 
-class DateGenerator {
+public class DateGenerator {
 
     private final Clock clock;
     private final int LOTTERY_HOUR = 20;

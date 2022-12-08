@@ -20,11 +20,11 @@ public class ResultCheckerFacadeTest {
         NumbersGeneratorFacade numbersGeneratorFacade = Mockito.mock(NumbersGeneratorFacade.class);
         when(numberReceiverFacade.usersNumbers(any())).thenReturn(
                 new AllNumbersFromUsersDto(List.of(
-                        new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id"),
+                        /*new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id"),
                         new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id2"),
                         new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id3"),
                         new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id4"),
-                        new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id5")
+                        new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), "id5")*/
                 )
                 ));
         // when

@@ -1,11 +1,11 @@
 
-package pl.lotto.NumbersGenerator;
+package pl.lotto.numbersgenerator;
 
 import java.util.List;
 
 public class NumbersGeneratorFacade {
 
-    WinningNumberGenerator winningNumberGenerator;
+   WinningNumberGenerator winningNumberGenerator;
 
 
     public List<Integer> winningNumbers() {
