@@ -49,10 +49,4 @@ public class DateGenerator {
         return false;
     }
 
-    public LocalDateTime previousDrawDate(LocalDateTime date) {
-        LocalDateTime nextDrawDate = generateDrawDate(date);
-        LocalDateTime previousDrawDate = nextDrawDate.minusDays(7);
-
-        return previousDrawDate;
-    }
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.sun.source.tree.LiteralTree;
 import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
+import pl.lotto.drawdategenerator.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
@@ -39,16 +40,16 @@ public class NumberReceiverFacade {
         if (validate.isFailure()) {
             return new NumberReceiverResultDto(message);
         }
-        LocalDateTime lotteryTicketDrawDate = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now(clock));
+        DrawDateDto lotteryTicketDrawDate = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now(clock));
         UUID lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
-        LotteryTicket lotteryTicket = new LotteryTicket(lotteryTicketDrawDate, lotteryId.toString(), numbersFromUser);
+        LotteryTicket lotteryTicket = new LotteryTicket(lotteryTicketDrawDate.drawDate(), lotteryId.toString(), numbersFromUser);
         repository.save(lotteryTicket);
-        return new NumberReceiverResultDto(message, lotteryTicketDrawDate, lotteryId.toString());
+        return new NumberReceiverResultDto(message, lotteryTicketDrawDate.drawDate(), lotteryId.toString());
     }
 
     public AllNumbersFromUsersDto usersNumbers(LocalDateTime nextDrawDate) {
-         LocalDateTime dateTime = drawDateGeneratorFacade.previousDrawDate(nextDrawDate);
-        List<LotteryTicket> all = repository.findAllbyDrawDate(dateTime);
+         DrawDateDto dateTime = drawDateGeneratorFacade.generateNextDrawDate(nextDrawDate);
+        List<LotteryTicket> all = repository.findAllbyDrawDate(dateTime.drawDate());
         List<LotteryTicketDto> allDto = all.stream().map(x ->{
            LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(x.getNumbersFromUser(),x.getLotteryId(),x.getDrawDate());
 

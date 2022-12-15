@@ -151,26 +151,16 @@ public class NumberReceiverFacadeTest {
         Clock clock = Clock.fixed(today.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest(clock, repository);
         List<Integer> numberFromUser = List.of(1, 2, 3, 4, 5, 6);
-        numberReceiverFacade.inputNumbers(numberFromUser);
+        NumberReceiverResultDto numberReceiverResultDto = numberReceiverFacade.inputNumbers(numberFromUser);
+        LocalDateTime expectedDrawDate = LocalDateTime.of(2022, Month.NOVEMBER, 17, 11, 0, 0);
         //when
-        AllNumbersFromUsersDto result = numberReceiverFacade.usersNumbers(LocalDateTime.now());
+        AllNumbersFromUsersDto result = numberReceiverFacade.usersNumbers(expectedDrawDate);
         //then
+        assertThat(result.allNumbers()).isNotEmpty();
         assertThat(result.allNumbers().get(0).numbers()).isEqualTo(List.of(1, 2, 3, 4, 5, 6));
     }
 
-    @Test
-    public void should_return_correct_id_when_user_played() {
-        // given
-        LocalDateTime today = LocalDateTime.of(2022, Month.NOVEMBER, 17, 11, 0, 0);
-        Clock clock = Clock.fixed(today.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest(clock, repository);
-        List<Integer> numberFromUser = List.of(1, 2, 3, 4, 5, 6);
-        numberReceiverFacade.inputNumbers(numberFromUser);
-        //when
-        AllNumbersFromUsersDto result = numberReceiverFacade.usersNumbers(LocalDateTime.now());
-        //then
-        assertThat(result.allNumbers().get(0).numbers()).isEqualTo(List.of(1, 2, 3, 4, 5, 6));
-    }
+
 
 
 
