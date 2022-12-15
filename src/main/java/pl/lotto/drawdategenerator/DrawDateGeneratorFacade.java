@@ -1,8 +1,7 @@
 package pl.lotto.drawdategenerator;
 
-import pl.lotto.drawdategenerator.dto.DrawDateDto;
-
 import java.time.LocalDateTime;
+import pl.lotto.drawdategenerator.dto.DrawDateDto;
 
 public class DrawDateGeneratorFacade {
 
@@ -13,12 +12,8 @@ public class DrawDateGeneratorFacade {
     }
 
 
-
-    public DrawDateDto generateNextDrawDate(LocalDateTime ticketCreatedAt){
-       return new DrawDateDto( dateGenerator.generateDrawDate(ticketCreatedAt));
+    public DrawDateDto generateNextDrawDate(LocalDateTime ticketCreatedAt) {
+        LocalDateTime drawDate = dateGenerator.generateDrawDate(ticketCreatedAt);
+        return new DrawDateDto(drawDate);
     }
-        /*    public LocalDateTime nextDrawDate(LocalDateTime userTicketCreatedTime) {
-        dateGenerator.generateDrawDate(userTicketCreatedTime);
-
-    }*/
 }

@@ -3,7 +3,7 @@ package pl.lotto.numberreceiver.dto;
 
 import java.time.LocalDateTime;
 
-public record NumberReceiverResultDto(String message, LocalDateTime lotteryIdGeneratedTime, String lotteryId) {
+public record NumberReceiverResultDto(String message, LocalDateTime drawDate, String lotteryId) {
 
 
     public NumberReceiverResultDto(String message){

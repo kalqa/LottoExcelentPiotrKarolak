@@ -1,5 +1,5 @@
 package pl.lotto.numberreceiver;
 
-public class ValidationExeption extends RuntimeException{
+public class ValidationExeption extends RuntimeException {
 
 }

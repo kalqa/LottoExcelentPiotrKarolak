@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.sun.source.tree.LiteralTree;
 import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
 import pl.lotto.drawdategenerator.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
@@ -14,24 +12,19 @@ import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 
 public class NumberReceiverFacade {
-    NumberReceiverValidator validator;
-    UserLotteryIdGenerator userLotteryIdGenerator;
-    NumberReceiverRepository repository;
 
-    Clock clock;
-    DrawDateGeneratorFacade drawDateGeneratorFacade;
+    private final NumberReceiverValidator validator;
+    private final UserLotteryIdGenerator userLotteryIdGenerator;
+    private final NumberReceiverRepository repository;
+    private final Clock clock;
+    private final DrawDateGeneratorFacade drawDateGeneratorFacade;
 
-
-    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, NumberReceiverRepository repository,DrawDateGeneratorFacade drawDateGeneratorFacade, Clock clock) {
+    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, NumberReceiverRepository repository, DrawDateGeneratorFacade drawDateGeneratorFacade, Clock clock) {
         this.validator = validator;
         this.userLotteryIdGenerator = userLotteryIdGenerator;
         this.repository = repository;
         this.drawDateGeneratorFacade = drawDateGeneratorFacade;
         this.clock = clock;
-    }
-
-    public NumberReceiverFacade(NumberReceiverValidator validator) {
-        this.validator = validator;
     }
 
     public NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {
@@ -47,20 +40,11 @@ public class NumberReceiverFacade {
         return new NumberReceiverResultDto(message, lotteryTicketDrawDate.drawDate(), lotteryId.toString());
     }
 
-    public AllNumbersFromUsersDto usersNumbers(LocalDateTime nextDrawDate) {
-         DrawDateDto dateTime = drawDateGeneratorFacade.generateNextDrawDate(nextDrawDate);
-        List<LotteryTicket> all = repository.findAllbyDrawDate(dateTime.drawDate());
-        List<LotteryTicketDto> allDto = all.stream().map(x ->{
-           LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(x.getNumbersFromUser(),x.getLotteryId(),x.getDrawDate());
-
-            return lotteryTicketDto;
-        }).collect(Collectors.toList());
-
+    public AllNumbersFromUsersDto usersNumbers(LocalDateTime drawDate) {
+        List<LotteryTicket> all = repository.findAllbyDrawDate(drawDate);
+        List<LotteryTicketDto> allDto = all.stream()
+                .map(x -> new LotteryTicketDto(x.getNumbersFromUser(), x.getLotteryId(), x.getDrawDate())).collect(Collectors.toList());
+        System.out.println("returned tickets:" + all.size() + "for date: " + drawDate);
         return new AllNumbersFromUsersDto(allDto);
     }
-
-
-//    NumbersFromUsersDto fetchAllTicketsForDate(LocalDateTime date) {
-//
-//    }
 }

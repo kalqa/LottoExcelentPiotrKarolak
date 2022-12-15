@@ -22,6 +22,9 @@ public class NumberReceiverRepositoryTestImpl implements NumberReceiverRepositor
 
     @Override
     public List<LotteryTicket> findAllbyDrawDate(LocalDateTime nextDrawDate) {
-        return database.values().stream().filter(e->e.getDrawDate().equals(nextDrawDate)).collect(Collectors.toList());
+        return database.values()
+                .stream()
+                .filter(e -> e.getDrawDate().equals(nextDrawDate))
+                .collect(Collectors.toList());
     }
 }
