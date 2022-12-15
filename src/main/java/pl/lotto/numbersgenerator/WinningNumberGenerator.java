@@ -9,7 +9,7 @@ class WinningNumberGenerator {
 
     public final int WINNING_LIST_SIZE = 6;
     public final int MIN_NUMBER = 1;
-    public final int MAX_NUMBER = 101;
+    public final int MAX_NUMBER = 99;
 
 
     public List<Integer> generateWinningNumberList() {
