@@ -13,10 +13,7 @@ public class NumberGeneratorFacadeTest {
         NumbersGeneratorFacade numbersGeneratorFacade = new NumbersGeneratorFacade();
         List<Integer> winningNumbers;
         //when
-       // winningNumbers = numbersGeneratorFacade.winningNumbers();
-        //then
-        // Stream? /robić validator?
-
+        winningNumbers = numbersGeneratorFacade.generateWinningNumbers();
     }
 
 

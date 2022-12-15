@@ -8,7 +8,7 @@ public class NumbersGeneratorFacade {
    WinningNumberGenerator winningNumberGenerator;
 
 
-    public List<Integer> winningNumbers() {
+    public List<Integer> generateWinningNumbers() {
 
         return winningNumberGenerator.generateWinningNumberList();
     }
