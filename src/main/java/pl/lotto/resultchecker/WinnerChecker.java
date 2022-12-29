@@ -6,6 +6,7 @@ import pl.lotto.numbersgenerator.WinningNumbersDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class WinnerChecker {
 
@@ -13,13 +14,8 @@ class WinnerChecker {
     List<LotteryTicketDto> checkWinningTickets(AllNumbersFromUsersDto allNumbersFromUsersDto, WinningNumbersDto winningNumber) {
 
         List<LotteryTicketDto> ticketList = allNumbersFromUsersDto.allNumbers().stream().toList();
-        List<LotteryTicketDto> winningTickets = new ArrayList<>();
+        List<LotteryTicketDto> winningTickets =  ticketList.stream().filter(ticket -> ticket.numbers().equals(winningNumber.winningNumbers())).collect(Collectors.toList());
 
-        for (LotteryTicketDto ticket :
-                ticketList) {
-            if (ticket.numbers().equals(winningNumber.winningNumbers()))
-                winningTickets.add(ticket);
-        }
         return winningTickets;
 
     }
