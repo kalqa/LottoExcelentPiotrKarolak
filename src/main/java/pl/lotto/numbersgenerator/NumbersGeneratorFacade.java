@@ -1,11 +1,12 @@
 
 package pl.lotto.numbersgenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class NumbersGeneratorFacade {
 
-    WinningNumberGenerator winningNumberGenerator;
+     private WinningNumberGenerator winningNumberGenerator;
 
     public NumbersGeneratorFacade(WinningNumberGenerator winningNumberGenerator) {
         this.winningNumberGenerator = winningNumberGenerator;

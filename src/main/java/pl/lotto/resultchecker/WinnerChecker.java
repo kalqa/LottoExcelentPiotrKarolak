@@ -1,4 +1,26 @@
 package pl.lotto.resultchecker;
 
-public class WinnerChecker {
+import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numberreceiver.dto.LotteryTicketDto;
+import pl.lotto.numbersgenerator.WinningNumbersDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class WinnerChecker {
+
+
+    List<LotteryTicketDto> checkWinningTickets(AllNumbersFromUsersDto allNumbersFromUsersDto, WinningNumbersDto winningNumber) {
+
+        List<LotteryTicketDto> ticketList = allNumbersFromUsersDto.allNumbers().stream().toList();
+        List<LotteryTicketDto> winningTickets = new ArrayList<>();
+
+        for (LotteryTicketDto ticket :
+                ticketList) {
+            if (ticket.numbers().equals(winningNumber.winningNumbers()))
+                winningTickets.add(ticket);
+        }
+        return winningTickets;
+
+    }
 }
