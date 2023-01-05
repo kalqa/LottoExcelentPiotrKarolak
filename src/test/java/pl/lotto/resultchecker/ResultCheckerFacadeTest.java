@@ -1,16 +1,13 @@
 package pl.lotto.resultchecker;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
-import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 import pl.lotto.numbersgenerator.WinningNumbersDto;
 
@@ -28,8 +25,9 @@ public class ResultCheckerFacadeTest {
         NumberReceiverFacade numberReceiverFacade = Mockito.mock(NumberReceiverFacade.class);
         NumbersGeneratorFacade numbersGeneratorFacade = Mockito.mock(NumbersGeneratorFacade.class);
         WinnerChecker winnerChecker = new WinnerChecker();
-        LocalDateTime drawTime =  LocalDateTime.of(2022, 12, 24, 20, 0, 0);
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade,winnerChecker);
+        ResultCheckerRepository resultCheckerRepository = new ResultCheckerRepositoryTestImpl();
+        LocalDateTime drawTime = LocalDateTime.of(2022, 12, 24, 20, 0, 0);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
         List<LotteryTicketDto> winningTickets;
         when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 6)));
         when(numberReceiverFacade.usersNumbers(any())).thenReturn(
@@ -55,9 +53,10 @@ public class ResultCheckerFacadeTest {
         // given
         NumberReceiverFacade numberReceiverFacade = Mockito.mock(NumberReceiverFacade.class);
         NumbersGeneratorFacade numbersGeneratorFacade = Mockito.mock(NumbersGeneratorFacade.class);
+        ResultCheckerRepository resultCheckerRepository = new ResultCheckerRepositoryTestImpl();
         WinnerChecker winnerChecker = new WinnerChecker();
-        LocalDateTime drawTime =  LocalDateTime.of(2022, 12, 24, 20, 0, 0);
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade,winnerChecker);
+        LocalDateTime drawTime = LocalDateTime.of(2022, 12, 24, 20, 0, 0);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
         List<LotteryTicketDto> winningTickets;
         when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 7)));
         when(numberReceiverFacade.usersNumbers(any())).thenReturn(
@@ -76,5 +75,50 @@ public class ResultCheckerFacadeTest {
         //then
         assertTrue(winningTickets.isEmpty());
     }
+
+    @Test
+    public void should_return_true_if_numbers_are_winning() {
+        //given
+        String lotteryID = "id1";
+        NumberReceiverFacade numberReceiverFacade = Mockito.mock(NumberReceiverFacade.class);
+        NumbersGeneratorFacade numbersGeneratorFacade = Mockito.mock(NumbersGeneratorFacade.class);
+        ResultCheckerRepository resultCheckerRepository = new ResultCheckerRepositoryTestImpl();
+        LocalDateTime drawTime = LocalDateTime.of(2022, 12, 24, 20, 0, 0);
+        WinnerChecker winnerChecker = new WinnerChecker();
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
+        LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), lotteryID, drawTime);
+        when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 6)));
+        resultCheckerRepository.save(lotteryTicketDto);
+        //when
+       boolean result = resultCheckerFacade.IsWinner(lotteryID);
+
+        //then
+
+        assertThat(result == true);
+    }
+
+
+    @Test
+    public void should_return_false_if_numbers_are_not_winning() {
+        //given
+        String lotteryID = "id1";
+        NumberReceiverFacade numberReceiverFacade = Mockito.mock(NumberReceiverFacade.class);
+        NumbersGeneratorFacade numbersGeneratorFacade = Mockito.mock(NumbersGeneratorFacade.class);
+        ResultCheckerRepository resultCheckerRepository = new ResultCheckerRepositoryTestImpl();
+        LocalDateTime drawTime = LocalDateTime.of(2022, 12, 24, 20, 0, 0);
+        WinnerChecker winnerChecker = new WinnerChecker();
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
+        LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 8), lotteryID, drawTime);
+        resultCheckerRepository.save(lotteryTicketDto);
+        when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 7)));
+
+        //when
+        boolean result = resultCheckerFacade.IsWinner(lotteryID);
+
+        //then
+
+        assertThat(result == false);
+    }
+
 
 }

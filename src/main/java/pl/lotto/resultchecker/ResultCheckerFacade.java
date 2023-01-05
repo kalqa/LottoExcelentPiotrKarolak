@@ -16,25 +16,29 @@ public class ResultCheckerFacade {
     private NumbersGeneratorFacade numbersGeneratorFacade;
 
     private WinnerChecker winnerChecker;
+    private final ResultCheckerRepository resultCheckerRepository;
 
-    public ResultCheckerFacade(NumberReceiverFacade numberReceiverFacade, NumbersGeneratorFacade numbersGeneratorFacade, WinnerChecker winnerChecker) {
+    public ResultCheckerFacade(NumberReceiverFacade numberReceiverFacade, NumbersGeneratorFacade numbersGeneratorFacade, WinnerChecker winnerChecker, ResultCheckerRepository resultCheckerRepository) {
         this.numberReceiverFacade = numberReceiverFacade;
         this.numbersGeneratorFacade = numbersGeneratorFacade;
         this.winnerChecker = winnerChecker;
+        this.resultCheckerRepository = resultCheckerRepository;
     }
 
-    public List<LotteryTicketDto> checkWinners(LocalDateTime drawTime){
+    public List<LotteryTicketDto> checkWinners(LocalDateTime drawTime) {
         AllNumbersFromUsersDto allNumbersFromUsersDto = numberReceiverFacade.usersNumbers(drawTime);
         WinningNumbersDto winningNumber = numbersGeneratorFacade.generateWinningNumbers();
-        List<LotteryTicketDto>  winningTickets = winnerChecker.checkWinningTickets(allNumbersFromUsersDto,winningNumber);
-       return winningTickets;
+        List<LotteryTicketDto> winningTickets = winnerChecker.checkWinningTickets(allNumbersFromUsersDto, winningNumber);
+        return winningTickets;
 
 
     }
 
-
-
-
+    public boolean IsWinner(String lotteryID) {
+        LotteryTicketDto lotteryTicket = resultCheckerRepository.findTicketbyId(lotteryID);
+        WinningNumbersDto winningNumber = numbersGeneratorFacade.generateWinningNumbers();
+        return winnerChecker.isTicketWinning(lotteryTicket,winningNumber);
+    }
 
 
 }

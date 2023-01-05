@@ -19,4 +19,16 @@ class WinnerChecker {
         return winningTickets;
 
     }
+
+    boolean isTicketWinning(LotteryTicketDto lotteryTicket, WinningNumbersDto winningNumbersDto) {
+        if(lotteryTicket.numbers().equals(winningNumbersDto.winningNumbers())){
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+
 }
