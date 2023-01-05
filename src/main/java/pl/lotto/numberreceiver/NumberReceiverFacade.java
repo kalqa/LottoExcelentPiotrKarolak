@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
 import pl.lotto.drawdategenerator.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numberreceiver.dto.InputNumbersRequestDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 
