@@ -57,7 +57,7 @@ public class NumberReceiverFacadeTest {
     }
 
     @Test
-    public void should_return_lottery_ticket_date_when_played_on_friday() {
+    public void should_return_lottery_ticket_when_correct_date() {
         // given
        /* LocalDateTime today = LocalDateTime.of(2022, Month.NOVEMBER, 17, 11, 0, 0);
         Clock clock = Clock.fixed(today.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
