@@ -1,53 +1,51 @@
 package pl.lotto.numberreceiver;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
+import pl.lotto.drawdategenerator.dto.DrawDateDto;
+import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numberreceiver.dto.InputNumbersRequestDto;
+import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 
 public class NumberReceiverFacade {
 
-    public static final String FAILURE_MESSAGE = "failure";
-    public static final String SUCCESS_MESSAGE = "success";
-    public final int MAXIMUM_NUMBERS_FROM_USER = 6;
+    private final NumberReceiverValidator validator;
+    private final UserLotteryIdGenerator userLotteryIdGenerator;
+    private final NumberReceiverRepository repository;
+    private final Clock clock;
+    private final DrawDateGeneratorFacade drawDateGeneratorFacade;
 
-    public final int MAXIMUM_NUMBER = 99;
+    NumberReceiverFacade(NumberReceiverValidator validator, UserLotteryIdGenerator userLotteryIdGenerator, NumberReceiverRepository repository, DrawDateGeneratorFacade drawDateGeneratorFacade, Clock clock) {
+        this.validator = validator;
+        this.userLotteryIdGenerator = userLotteryIdGenerator;
+        this.repository = repository;
+        this.drawDateGeneratorFacade = drawDateGeneratorFacade;
+        this.clock = clock;
+    }
 
-    public final int MINIMUM_NUMBER = 1;
-
-    NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {
-        if (!hasUserGaveExactlySixNumbers(numbersFromUser) || hasUserGaveDuplicate(numbersFromUser) || !hasUserGaveNumberInRange(numbersFromUser)) {
-            return new NumberReceiverResultDto(FAILURE_MESSAGE);
+    public NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {
+        NumberValidationResult validate = validator.validate(numbersFromUser);
+        String message = validate.validationMessage();
+        if (validate.isFailure()) {
+            return new NumberReceiverResultDto(message);
         }
-
-
-
-        return new NumberReceiverResultDto(SUCCESS_MESSAGE);
+        DrawDateDto lotteryTicketDrawDate = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now(clock));
+        UUID lotteryId = userLotteryIdGenerator.generateUserLotteryId(message);
+        LotteryTicket lotteryTicket = new LotteryTicket(lotteryTicketDrawDate.drawDate(), lotteryId.toString(), numbersFromUser);
+        repository.save(lotteryTicket);
+        return new NumberReceiverResultDto(message, lotteryTicketDrawDate.drawDate(), lotteryId.toString());
     }
 
-    private boolean hasUserGaveLessThanSixNumbers(List<Integer> numbersFromUser) {
-        return numbersFromUser.size() < MAXIMUM_NUMBERS_FROM_USER;
-    }
-
-    private boolean hasUserGaveMoreThenSixNumbers(List<Integer> numbersFromUser) {
-        return numbersFromUser.size() >MAXIMUM_NUMBERS_FROM_USER;
-    }
-
-    private  boolean hasUserGaveExactlySixNumbers(List<Integer> numbersFromUser){
-        return numbersFromUser.size() == MAXIMUM_NUMBERS_FROM_USER;
-    }
-
-    private boolean hasUserGaveDuplicate(List<Integer> numbersFromUser){
-        return numbersFromUser.stream().distinct().count() != MAXIMUM_NUMBERS_FROM_USER;
-    }
-
-    private boolean hasUserGaveNumberInRange(List<Integer> numbersFromUser){
-        boolean isInRange = true;
-        for (Integer integer :
-                numbersFromUser) {
-            if (integer > MAXIMUM_NUMBER || integer < MINIMUM_NUMBER)
-                isInRange = false;
-
-        }
-        return isInRange;
-
+    public AllNumbersFromUsersDto usersNumbers(LocalDateTime drawDate) {
+        List<LotteryTicket> all = repository.findAllbyDrawDate(drawDate);
+        List<LotteryTicketDto> allDto = all.stream()
+                .map(x -> new LotteryTicketDto(x.getNumbersFromUser(), x.getLotteryId(), x.getDrawDate())).collect(Collectors.toList());
+        System.out.println("returned tickets:" + all.size() + "for date: " + drawDate);
+        return new AllNumbersFromUsersDto(allDto);
     }
 }
