@@ -17,10 +17,10 @@ public class ResultCheckerRepositoryTestImpl implements ResultCheckerRepository 
     }
 
     @Override
-    public LotteryTicketDto findTicketbyId(String lotteryid) {
+    public LotteryTicketDto findTicketById(String lotteryId) {
       List<LotteryTicketDto> lotteryTicketDtoList = database.values()
                 .stream()
-                .filter(e -> e.lotteryId().equals(lotteryid))
+                .filter(e -> e.lotteryId().equals(lotteryId))
                 .collect(Collectors.toList());
 
       return lotteryTicketDtoList.get(0);

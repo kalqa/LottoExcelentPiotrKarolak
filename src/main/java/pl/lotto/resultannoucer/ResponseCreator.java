@@ -1,12 +1,13 @@
 package pl.lotto.resultannoucer;
 
-public class ResponseCreator {
+import static pl.lotto.resultannoucer.WinningMessage.*;
 
+class ResponseCreator {
 
-    public ResultAnnoucerDto createRespone(String idTicket, boolean isWinning) {
-        if(isWinning){
-            return new ResultAnnoucerDto(isWinning,idTicket,WinningMessage.WIN.message);
+    ResultAnnouncerDto createResponse(String ticketId, boolean isWinner) {
+        if (isWinner) {
+            return new ResultAnnouncerDto(isWinner, ticketId, WIN.message);
         }
-        return new ResultAnnoucerDto(isWinning,idTicket,WinningMessage.LOSE.message);
+        return new ResultAnnouncerDto(isWinner, ticketId, LOSE.message);
     }
 }

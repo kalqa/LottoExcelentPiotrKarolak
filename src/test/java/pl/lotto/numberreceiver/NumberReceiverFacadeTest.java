@@ -59,9 +59,6 @@ public class NumberReceiverFacadeTest {
     @Test
     public void should_return_lottery_ticket_when_correct_date() {
         // given
-       /* LocalDateTime today = LocalDateTime.of(2022, Month.NOVEMBER, 17, 11, 0, 0);
-        Clock clock = Clock.fixed(today.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacadeForTest(clock, repository);*/
         DrawDateGeneratorFacade drawDateFacade = Mockito.mock(DrawDateGeneratorFacade.class);
         LocalDateTime drawDate = LocalDateTime.of(2022, Month.NOVEMBER, 19, 20, 0, 0);
         when(drawDateFacade.generateNextDrawDate(any())).thenReturn(DrawDateDto.builder().drawDate(drawDate).build());

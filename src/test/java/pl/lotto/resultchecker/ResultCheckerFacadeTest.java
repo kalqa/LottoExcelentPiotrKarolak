@@ -90,7 +90,7 @@ public class ResultCheckerFacadeTest {
         when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 6)));
         resultCheckerRepository.save(lotteryTicketDto);
         //when
-       boolean result = resultCheckerFacade.IsWinner(lotteryID);
+       boolean result = resultCheckerFacade.isWinner(lotteryID);
 
         //then
 
@@ -113,7 +113,7 @@ public class ResultCheckerFacadeTest {
         when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 7)));
 
         //when
-        boolean result = resultCheckerFacade.IsWinner(lotteryID);
+        boolean result = resultCheckerFacade.isWinner(lotteryID);
 
         //then
 
