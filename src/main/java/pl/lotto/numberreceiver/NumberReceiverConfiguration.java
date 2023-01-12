@@ -9,6 +9,11 @@ import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
 public class NumberReceiverConfiguration {
 
     @Bean
+    Clock clock(){
+        return Clock.systemUTC();
+    }
+
+    @Bean
     public NumberReceiverFacade numberReceiverFacade(Clock clock, NumberReceiverRepository repository, DrawDateGeneratorFacade drawDateGeneratorFacade) {
         NumberReceiverValidator numberReceiverValidator = new NumberReceiverValidator();
         UserLotteryIdGenerator userLotteryIdGenerator = new UserLotteryIdGenerator();

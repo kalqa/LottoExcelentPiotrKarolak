@@ -18,7 +18,7 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
         // given
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")
-                .content("{\"numbers\":[1,2,3,4,5,6]}")
+                .content("{\"numbersFromUser\":[1,2,3,4,5,6]}")
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
         // then
         MvcResult mvcResult = perform
