@@ -25,7 +25,7 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "{\"message\":\"success\"," +
-                                "\"drawDate\":\"2022-12-24T12:00:00\"}"))
+                                "\"drawDate\":\"2023-01-21T20:00:00\"}"))
                 .andReturn();
 
         // step 2: system generates winning numbers
