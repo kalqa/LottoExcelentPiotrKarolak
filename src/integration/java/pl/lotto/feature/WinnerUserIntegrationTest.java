@@ -29,7 +29,10 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andReturn();
 
         // step 2: system generates winning numbers
-        // given
+      /*  MvcResult mvcNumbergeneratorResult = perform
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\""}"))
+        // given*/
         // when
         // then
 
