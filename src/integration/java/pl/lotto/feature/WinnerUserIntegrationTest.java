@@ -18,7 +18,7 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
         // given
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")
-                .content("{\"numbers\":[1,2,3,4,5,6]}")
+                .content("{\"numbersFromUser\":[1,2,3,4,5,6]}")
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
         // then
         MvcResult mvcResult = perform
@@ -29,7 +29,10 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andReturn();
 
         // step 2: system generates winning numbers
-        // given
+      /*  MvcResult mvcNumbergeneratorResult = perform
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\""}"))
+        // given*/
         // when
         // then
 

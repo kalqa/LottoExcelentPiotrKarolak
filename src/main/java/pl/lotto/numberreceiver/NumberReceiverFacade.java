@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import pl.lotto.drawdategenerator.DrawDateGeneratorFacade;
 import pl.lotto.drawdategenerator.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
-import pl.lotto.numberreceiver.dto.InputNumbersRequestDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 
@@ -42,7 +41,7 @@ public class NumberReceiverFacade {
     }
 
     public AllNumbersFromUsersDto usersNumbers(LocalDateTime drawDate) {
-        List<LotteryTicket> all = repository.findAllbyDrawDate(drawDate);
+        List<LotteryTicket> all = repository.findAllByDrawDate(drawDate);
         List<LotteryTicketDto> allDto = all.stream()
                 .map(x -> new LotteryTicketDto(x.getNumbersFromUser(), x.getLotteryId(), x.getDrawDate())).collect(Collectors.toList());
         System.out.println("returned tickets:" + all.size() + "for date: " + drawDate);
