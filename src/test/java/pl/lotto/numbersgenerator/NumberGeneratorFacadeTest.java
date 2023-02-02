@@ -41,8 +41,9 @@ public class NumberGeneratorFacadeTest {
         //when
         List<Integer> winningNumbers = numbersGeneratorFacade.generateWinningNumbers().winningNumbers();
         //then
-        assertThat(winningNumbers.stream()).isNotEmpty();
-        assertThat(winningNumbers.stream().count()).isEqualTo(6);
+
+        assertThat(winningNumbers).isNotEmpty();
+        assertThat(winningNumbers).hasSize(6);
 
     }
 

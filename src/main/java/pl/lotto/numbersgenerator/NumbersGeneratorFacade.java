@@ -24,22 +24,17 @@ public class NumbersGeneratorFacade {
         List<Integer> winningNumbers = winningNumberGenerator.generateWinningNumberList();
         DrawDateDto drawDateDto = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now());
         LocalDateTime drawDate = drawDateDto.drawDate();
-        winningNumberRepository.save(WinningNumbers.builder()
+        WinningNumbers saved = winningNumberRepository.save(WinningNumbers.builder()
                 .date(drawDate)
                 .winningNumbers(winningNumbers)
                 .build());
-        return new WinningNumbersDto(winningNumbers);
+        return new WinningNumbersDto(saved.getWinningNumbers());
     }
 
     public WinningNumbersDto retriveWinningNumbersforDate(LocalDateTime date) {
-        Optional<WinningNumbers> winningNumbers = winningNumberRepository.findByDate(date);
-
-        WinningNumbers winningNumbers1 = winningNumbers.orElse(WinningNumbers.builder()
-                .winningNumbers(Collections.emptyList())
-                .build());
-
-
-        return new WinningNumbersDto(winningNumbers.get().getWinningNumbers());
+        WinningNumbers winningNumbers = winningNumberRepository.findByDate(date).orElseThrow(
+                () -> new WinningNumbersNotFoundException("Winning numbers not found for date"));
+        return new WinningNumbersDto(winningNumbers.getWinningNumbers());
     }
 
 }
