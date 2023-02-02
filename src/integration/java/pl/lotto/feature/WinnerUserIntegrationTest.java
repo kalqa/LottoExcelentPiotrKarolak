@@ -1,16 +1,27 @@
 package pl.lotto.feature;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.lotto.BaseIntegrationTest;
+import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class WinnerUserIntegrationTest extends BaseIntegrationTest {
+
+    @Autowired
+    private NumbersGeneratorFacade numbersGeneratorFacade;
 
     @Test
     public void should_user_play_and_win_after_7_days() throws Exception {
@@ -29,6 +40,16 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andReturn();
 
         // step 2: system generates winning numbers
+/*
+        await().atMost(10, SECONDS)
+                .pollInterval(1, SECONDS)
+                .until(()->{
+                    numbersGeneratorFacade.generateWinningNumbers();
+                });
+
+        await().atMost(10, SECONDS)
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> !numbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());*/
       /*  MvcResult mvcNumbergeneratorResult = perform
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\""}"))
