@@ -12,7 +12,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@SpringBootTest(classes = LottoApplication.class)
+@SpringBootTest(classes = {LottoApplication.class,IntegrationConfiguration.class})
 @AutoConfigureMockMvc
 @Testcontainers
 @ActiveProfiles("integration")

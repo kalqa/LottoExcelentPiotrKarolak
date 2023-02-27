@@ -88,9 +88,12 @@ public class ResultCheckerFacadeTest {
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
         LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 6), lotteryID, drawTime);
         when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 6)));
-        resultCheckerRepository.save(lotteryTicketDto);
+        List<Integer> winningNumbers = numbersGeneratorFacade.generateWinningNumbers().winningNumbers();
+        PlayerResult playerResult = new PlayerResult(lotteryID,winningNumbers, List.of(lotteryTicketDto), drawTime);
+        resultCheckerRepository.save(playerResult);
+
         //when
-       boolean result = resultCheckerFacade.isWinner(lotteryID);
+        boolean result = resultCheckerFacade.isWinner(lotteryID);
 
         //then
 
@@ -108,10 +111,12 @@ public class ResultCheckerFacadeTest {
         LocalDateTime drawTime = LocalDateTime.of(2022, 12, 24, 20, 0, 0);
         WinnerChecker winnerChecker = new WinnerChecker();
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, numbersGeneratorFacade, winnerChecker, resultCheckerRepository);
-        LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 8), lotteryID, drawTime);
-        resultCheckerRepository.save(lotteryTicketDto);
-        when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 7)));
 
+        LotteryTicketDto lotteryTicketDto = new LotteryTicketDto(List.of(1, 2, 3, 4, 5, 8), lotteryID, drawTime);
+        when(numbersGeneratorFacade.generateWinningNumbers()).thenReturn(new WinningNumbersDto(List.of(1, 2, 3, 4, 5, 7)));
+        List<Integer> winningNumbers = numbersGeneratorFacade.generateWinningNumbers().winningNumbers();
+        PlayerResult playerResult = new PlayerResult(lotteryID,winningNumbers, List.of(lotteryTicketDto), drawTime);
+        resultCheckerRepository.save(playerResult);
         //when
         boolean result = resultCheckerFacade.isWinner(lotteryID);
 

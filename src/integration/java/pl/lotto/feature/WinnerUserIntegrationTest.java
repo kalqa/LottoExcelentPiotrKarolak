@@ -12,6 +12,8 @@ import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 import pl.lotto.numbersgenerator.WinningNumbers;
 import pl.lotto.numbersgenerator.WinningNumbersDto;
 import pl.lotto.numbersgenerator.WinningNumbersNotFoundException;
+import pl.lotto.resultchecker.ResultCheckerDto;
+import pl.lotto.resultchecker.ResultCheckerFacade;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private NumbersGeneratorFacade numbersGeneratorFacade;
     @Autowired
+    private ResultCheckerFacade resultCheckerFacade;
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Test
@@ -44,7 +48,7 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "{\"message\":\"success\"," +
-                                "\"drawDate\":\"2023-02-04T20:00:00\"}"))
+                                "\"drawDate\":\"2023-01-21T20:00:00\"}"))
                 .andReturn();
         NumberReceiverResultDto receiverResultDto = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), NumberReceiverResultDto.class);
         // step 2: system is generating winning numbers
@@ -54,11 +58,11 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                     try {
                         WinningNumbersDto winningNumbersDto = numbersGeneratorFacade.retriveWinningNumbersforDate(receiverResultDto.drawDate());
                         return winningNumbersDto.winningNumbers().size() == 6;
-                    }catch (WinningNumbersNotFoundException e){
+                    } catch (WinningNumbersNotFoundException e) {
                         return false;
                     }
 
-                    });
+                });
 
 /*        await().atMost(10, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
@@ -72,6 +76,13 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
 
         // step 3: user wants to know if won
         // given
+        await().atMost(20, SECONDS)
+                .pollInterval(1, SECONDS)
+                .until(() ->
+                        resultCheckerFacade.areGeneratedWinnersByDate(receiverResultDto.drawDate())
+                    //
+                );
+
         // when
         // then
     }

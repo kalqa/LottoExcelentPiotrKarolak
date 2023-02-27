@@ -1,10 +1,15 @@
 package pl.lotto.resultchecker;
 
-import pl.lotto.numberreceiver.dto.LotteryTicketDto;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ResultCheckerRepository {
+import java.time.LocalDateTime;
 
-    LotteryTicketDto save(LotteryTicketDto lotteryTicketDto);
+@Repository
+public interface ResultCheckerRepository  extends MongoRepository<PlayerResult,String> {
 
-    LotteryTicketDto findTicketById(String lotteryId);
+
+    PlayerResult findPlayerResultById(String lotteryId);
+
+    boolean existsLotteryPlayerResultsByDrawDate(LocalDateTime drawDate);
 }
