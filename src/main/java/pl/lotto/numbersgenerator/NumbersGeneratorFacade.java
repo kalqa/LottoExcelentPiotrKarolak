@@ -21,8 +21,14 @@ public class NumbersGeneratorFacade {
 
     //dopisać testy
     public WinningNumbersDto generateWinningNumbers() {
-        List<Integer> winningNumbers = winningNumberGenerator.generateWinningNumberList();
         DrawDateDto drawDateDto = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now());
+
+        if (winningNumberRepository.findByDate(drawDateDto.drawDate()).isPresent()) {
+            WinningNumbers winningNumbers = winningNumberRepository.findByDate(drawDateDto.drawDate()).get();
+            return new WinningNumbersDto(winningNumbers.getWinningNumbers());
+        }
+        List<Integer> winningNumbers = winningNumberGenerator.generateWinningNumberList();
+
         LocalDateTime drawDate = drawDateDto.drawDate();
         WinningNumbers saved = winningNumberRepository.save(WinningNumbers.builder()
                 .date(drawDate)
@@ -30,6 +36,7 @@ public class NumbersGeneratorFacade {
                 .build());
         return new WinningNumbersDto(saved.getWinningNumbers());
     }
+
 
     public WinningNumbersDto retriveWinningNumbersforDate(LocalDateTime date) {
         WinningNumbers winningNumbers = winningNumberRepository.findByDate(date).orElseThrow(

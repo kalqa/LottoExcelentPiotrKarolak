@@ -13,7 +13,7 @@ public class WinningNumbersScheduler {
 
     private final NumbersGeneratorFacade numbersGeneratorFacade;
 
-    @Scheduled(cron = "*/40 * * * * *")
+    @Scheduled(cron = "*/2 * * * * *")
 
     public void generateWinningNumbers(){
          numbersGeneratorFacade.generateWinningNumbers();

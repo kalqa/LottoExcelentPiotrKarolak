@@ -12,10 +12,10 @@ import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 import pl.lotto.numbersgenerator.WinningNumbers;
 import pl.lotto.numbersgenerator.WinningNumbersDto;
 import pl.lotto.numbersgenerator.WinningNumbersNotFoundException;
-import pl.lotto.resultchecker.ResultCheckerDto;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -31,9 +31,10 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private NumbersGeneratorFacade numbersGeneratorFacade;
     @Autowired
-    private ResultCheckerFacade resultCheckerFacade;
-    @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ResultCheckerFacade resultCheckerFacade;
 
     @Test
     public void should_user_play_and_win_after_7_days() throws Exception {
@@ -52,37 +53,33 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                 .andReturn();
         NumberReceiverResultDto receiverResultDto = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), NumberReceiverResultDto.class);
         // step 2: system is generating winning numbers
+        //given
+        LocalDateTime drawDate = receiverResultDto.drawDate();
+        // when & then
         await().atMost(20, SECONDS)
                 .pollInterval(1, SECONDS)
                 .until(() -> {
                     try {
-                        WinningNumbersDto winningNumbersDto = numbersGeneratorFacade.retriveWinningNumbersforDate(receiverResultDto.drawDate());
+
+                        WinningNumbersDto winningNumbersDto = numbersGeneratorFacade.retriveWinningNumbersforDate(drawDate);
                         return winningNumbersDto.winningNumbers().size() == 6;
-                    } catch (WinningNumbersNotFoundException e) {
+                    }catch (WinningNumbersNotFoundException e){
                         return false;
                     }
 
-                });
-
-/*        await().atMost(10, SECONDS)
+                    });
+        // Step 3: System is generating results
+        //given & when & then
+       await().atMost(20, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
-                .until(() -> !numbersGeneratorFacade.retriveWinningNumbersforDate(result.drawDate()).winningNumbers().isEmpty());
-      MvcResult mvcNumbergeneratorResult = perform
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\""}"))*/
-        // given*/
+                .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate));
+
+        // given
         // when
         // then
 
         // step 3: user wants to know if won
         // given
-        await().atMost(20, SECONDS)
-                .pollInterval(1, SECONDS)
-                .until(() ->
-                        resultCheckerFacade.areGeneratedWinnersByDate(receiverResultDto.drawDate())
-                    //
-                );
-
         // when
         // then
     }
