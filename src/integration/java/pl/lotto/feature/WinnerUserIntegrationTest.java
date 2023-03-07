@@ -71,10 +71,9 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                     });
         // Step 3: System is generating results
         //given & when & then
-       /*await().atMost(20, SECONDS)
+       await().atMost(20, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
-                .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate));
-*/
+                .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate.minusHours(1)));
    /*     // given
         String userTicketId = receiverResultDto.lotteryId();
         // when

@@ -26,7 +26,10 @@ public class ResultCheckerFacade {
     public List<LotteryTicketDto> checkWinners(LocalDateTime drawTime) {
         AllNumbersFromUsersDto allNumbersFromUsersDto = numberReceiverFacade.usersNumbers(drawTime);
         WinningNumbersDto winningNumber = numbersGeneratorFacade.generateWinningNumbers();
-        return winnerChecker.checkWinningTickets(allNumbersFromUsersDto, winningNumber);
+
+        List<LotteryTicketDto> lotteryTicketDtos = winnerChecker.checkWinningTickets(allNumbersFromUsersDto, winningNumber);
+        PlayerResult playerResul = new PlayerResult()
+        return lotteryTicketDtos;
     }
 
     public boolean isWinner(String lotteryId) {
