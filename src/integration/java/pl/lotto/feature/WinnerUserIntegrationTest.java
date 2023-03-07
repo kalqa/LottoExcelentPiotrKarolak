@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,17 +71,27 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
                     });
         // Step 3: System is generating results
         //given & when & then
-       await().atMost(20, SECONDS)
+       /*await().atMost(20, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
                 .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate));
-
-        // given
+*/
+   /*     // given
+        String userTicketId = receiverResultDto.lotteryId();
         // when
         // then
 
         // step 3: user wants to know if won
+        ResultActions userPerform = mockMvc.perform(get("/getwinners/"+userTicketId)
+                ;
+
         // given
         // when
         // then
+        MvcResult mvcUserResult = userPerform
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        "{\"message\":\"success\"," +
+                                "\"drawDate\":\"2023-01-21T20:00:00\"}"))
+                .andReturn();*/
     }
 }

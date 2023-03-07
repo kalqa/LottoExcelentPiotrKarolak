@@ -13,7 +13,6 @@ public class ResultCheckerConfiguration {
     @Bean
     public ResultCheckerFacade resultCheckerFacade(NumberReceiverFacade numberReceiverFacade, NumbersGeneratorFacade numbersGeneratorFacade, ResultCheckerRepository resultCheckerRepository) {
         WinnerChecker winnerChecker = new WinnerChecker();
-
         return new ResultCheckerFacade(numberReceiverFacade,numbersGeneratorFacade,winnerChecker,resultCheckerRepository);
     }
 
