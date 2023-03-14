@@ -14,7 +14,7 @@ public class ResultAnnouncerFacade {
     }
 
     public ResultAnnouncerDto checkWinner(String ticketId) {
-        boolean isWinner = resultCheckerFacade.isWinner(ticketId);
+        boolean isWinner= resultCheckerFacade.isWinner(ticketId);
         return responseCreator.createResponse(ticketId, isWinner);
     }
 }

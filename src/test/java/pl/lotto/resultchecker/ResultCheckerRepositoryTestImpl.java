@@ -41,7 +41,7 @@ public class ResultCheckerRepositoryTestImpl implements ResultCheckerRepository 
     }
 
     @Override
-    public boolean existsLotteryPlayerResultsByDrawDate(LocalDateTime drawDate) {
+    public boolean existsPlayerResultByDrawDate(LocalDateTime drawDate) {
         long count = database.values()
                 .stream()
                 .filter(x -> x.drawDate().equals(drawDate))
@@ -49,6 +49,11 @@ public class ResultCheckerRepositoryTestImpl implements ResultCheckerRepository 
         return count != 0;
 
 
+    }
+
+    @Override
+    public PlayerResult findPlayerResultByDrawDate(LocalDateTime drawDate) {
+        return null;
     }
 
 

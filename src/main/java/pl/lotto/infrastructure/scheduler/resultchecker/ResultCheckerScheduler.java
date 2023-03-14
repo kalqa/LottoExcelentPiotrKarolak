@@ -11,6 +11,7 @@ import pl.lotto.numbersgenerator.NumbersGeneratorFacade;
 import pl.lotto.numbersgenerator.WinningNumbersNotFoundException;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Component
@@ -22,10 +23,10 @@ public class ResultCheckerScheduler {
     private final DrawDateGeneratorFacade drawDateGeneratorFacade;
     private final NumbersGeneratorFacade numbersGeneratorFacade;
 
-
+    private final Clock clock;
     @Scheduled(cron = "*/2 * * * * *")
     public void generatePlayerResults() {
-        DrawDateDto drawDateDto = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now());
+        DrawDateDto drawDateDto = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now(clock));
         LocalDateTime drawDate = drawDateDto.drawDate();
         try {
 

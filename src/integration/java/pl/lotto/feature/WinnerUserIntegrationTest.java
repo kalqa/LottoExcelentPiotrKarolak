@@ -73,24 +73,27 @@ public class WinnerUserIntegrationTest extends BaseIntegrationTest {
         //given & when & then
        await().atMost(20, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
-                .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate.minusHours(1)));
-   /*     // given
-        String userTicketId = receiverResultDto.lotteryId();
+                .until(() -> resultCheckerFacade.areGeneratedWinnersByDate(drawDate));
+
+       //Step 4:
+       // given
+       String userTicketId = receiverResultDto.lotteryId();
+        ResultActions performPlayerResult = mockMvc.perform(get("/getwinners/"+userTicketId)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        MvcResult mvcPlayerResult = performPlayerResult
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        ""))
+                .andReturn();
+
+
         // when
         // then
 
         // step 3: user wants to know if won
-        ResultActions userPerform = mockMvc.perform(get("/getwinners/"+userTicketId)
-                ;
 
-        // given
-        // when
-        // then
-        MvcResult mvcUserResult = userPerform
-                .andExpect(status().isOk())
-                .andExpect(content().json(
-                        "{\"message\":\"success\"," +
-                                "\"drawDate\":\"2023-01-21T20:00:00\"}"))
-                .andReturn();*/
+
+
     }
 }
