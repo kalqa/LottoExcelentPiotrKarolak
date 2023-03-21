@@ -19,7 +19,7 @@ public class NumbersGeneratorFacade {
     private final DrawDateGeneratorFacade drawDateGeneratorFacade;
 
 
-    //dopisać testy
+
     public WinningNumbersDto generateWinningNumbers() {
         DrawDateDto drawDateDto = drawDateGeneratorFacade.generateNextDrawDate(LocalDateTime.now());
 

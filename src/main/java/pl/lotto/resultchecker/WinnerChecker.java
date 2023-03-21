@@ -16,7 +16,7 @@ class WinnerChecker {
     }
 
 
-    boolean isTicketWinning(PlayerResult playerResult, WinningNumbersDto winningNumbersDto) {
-        return playerResult.winningNumbers().equals(winningNumbersDto.winningNumbers());
+    boolean isTicketWinning(WinningTicket winningTicket, WinningNumbersDto winningNumbersDto) {
+        return winningTicket.numbers().equals(winningNumbersDto.winningNumbers());
     }
 }

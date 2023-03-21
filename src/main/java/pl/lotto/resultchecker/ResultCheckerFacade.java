@@ -28,22 +28,21 @@ public class ResultCheckerFacade {
         WinningNumbersDto winningNumber = numbersGeneratorFacade.generateWinningNumbers();
 
         List<LotteryTicketDto> lotteryTicketDtos = winnerChecker.checkWinningTickets(allNumbersFromUsersDto, winningNumber);
-        resultCheckerRepository.save( PlayerResult.builder()
+        resultCheckerRepository.save( WinningTicket.builder()
                 .drawDate(drawTime)
-                .usersTickets(lotteryTicketDtos)
-                .winningNumbers(winningNumber.winningNumbers()).build());
+                .numbers(winningNumber.winningNumbers()).build());
         return lotteryTicketDtos;
     }
 
     //Tutaj blad
     public boolean isWinner(String lotteryId) {
-        PlayerResult playerResult = resultCheckerRepository.findPlayerResultById(lotteryId);
+        WinningTicket winningTicket = resultCheckerRepository.findWinningTicketById(lotteryId);
         WinningNumbersDto winningNumber = numbersGeneratorFacade.generateWinningNumbers();
-        return winnerChecker.isTicketWinning(playerResult, winningNumber);
+        return winnerChecker.isTicketWinning(winningTicket, winningNumber);
     }
 
 
     public boolean areGeneratedWinnersByDate(LocalDateTime drawTime){
-        return resultCheckerRepository.existsPlayerResultByDrawDate(drawTime);
+        return resultCheckerRepository.existsWinningTicketByDrawDate(drawTime);
     }
 }
